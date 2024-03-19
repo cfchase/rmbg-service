@@ -2,9 +2,11 @@ const fs = require("node:fs/promises");
 const baseUrl = "http://127.0.0.1:5000";
 const statusPath = "api/status";
 const rmbgPath = "api/rmbg";
-const imageFilePath = process.env.IMAGE || "example_input.png"
-const statusUrl = new URL(statusPath, baseUrl).href
-const rmbgUrl = new URL(rmbgPath, baseUrl).href
+const imageFilePath = process.env.IMAGE || "example_input.png";
+const statusUrl = new URL(statusPath, baseUrl).href;
+const rmbgUrl = new URL(rmbgPath, baseUrl).href;
+
+
 const status = async () => {
   try {
     console.log(statusUrl)
@@ -24,6 +26,7 @@ const status = async () => {
     console.error(err.message);
   }
 };
+
 
 const rmbg = async (image) => {
   try {
@@ -56,6 +59,6 @@ const rmbg = async (image) => {
   const image = await fs.readFile(imageFilePath)
   let rmbgResponse = await rmbg(image);
   await fs.writeFile("example_output.json", JSON.stringify(rmbgResponse, null, 2));
-  const imageFile = await fs.writeFile("example_output.png", Buffer.from(rmbgResponse.image, "base64"));
-
+  const noBgImage = Buffer.from(rmbgResponse.image, "base64");
+  await fs.writeFile("example_output.png", noBgImage);
 })();
