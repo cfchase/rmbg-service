@@ -14,5 +14,5 @@ echo ${rmbg}
 
 curl ${base_url}/api/status
 (echo -n '{"image": "'; base64 "${image}"; echo '"}') | curl -X POST -H "Content-Type: application/json" -d @- $rmbg > example_output.json
-(echo -n '{"image": "'; base64 "${image}"; echo '"}') | curl -X POST -H "Content-Type: application/json" -d @- $rmbg | jq -r '.image' | base64 -d > "${DIR}/example_output.png"
+(echo -n '{"image": "'; base64 "${image}"; echo '"}') | curl -X POST -H "Content-Type: application/json" -d @- $rmbg | jq -r '.image' | base64 -d > "example_output.png"
 

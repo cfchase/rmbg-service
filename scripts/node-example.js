@@ -2,7 +2,7 @@ const fs = require("node:fs/promises");
 const baseUrl = "http://127.0.0.1:5000";
 const statusPath = "api/status";
 const rmbgPath = "api/rmbg";
-const imageFilePath = process.env.IMAGE || "example_input.png";
+const imageFilePath = process.env.IMAGE || `${__dirname}/example_input.png`;
 const statusUrl = new URL(statusPath, baseUrl).href;
 const rmbgUrl = new URL(rmbgPath, baseUrl).href;
 

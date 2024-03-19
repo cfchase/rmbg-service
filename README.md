@@ -23,7 +23,9 @@ Returns a JSON object with the base64 encoded image in PNG format of the backgro
 ```
 Full script: [scripts/curl-example.sh](scripts/curl-example.sh)
 ```shell
-IMAGE=my_image.jpg ./curl-example.sh
+BASE_URL=http://127.0.0.1:5000 \
+IMAGE=./scripts/example_input.png \
+./scripts/curl-example.sh
 ```
 
 ### Node.js example
@@ -51,7 +53,9 @@ const fs = require("node:fs/promises");
 ```
 Full code: [scripts/node-example.js](scripts/node-example.js)
 ```shell
-IMAGE=my_image.jpg node node-example.js
+BASE_URL=https://127.0.0.1:5000 \
+IMAGE=./scripts/example_input.png \
+node ./scripts/node-example.js
 ```
 
 

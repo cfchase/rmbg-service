@@ -1,38 +1,63 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: my-python
+  name: rmbg
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: python-app
+      app: rmbg
   template:
     metadata:
       labels:
-        app: python-app
+        app: rmbg
     spec:
       containers:
-        - name: my-python
-          image: python-image:latest
+        - name: rmbg
+          image: quay.io/cfchase/rmbg:latest
           ports:
             - name: http
               containerPort: 8081
               protocol: TCP
           resources:
             requests:
-              memory: "500Mi"
-              cpu: "500m"
+              memory: "2Gi"
+              cpu: "1"
+              nvidia.com/gpu: "1"
+            limits:
+              memory: "24Gi"
+              cpu: "6"
+              nvidia.com/gpu: "1"
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: my-python
+  name: rmbg
 spec:
-ports:
-  - name: http-8081
-    port: 8081
-    protocol: TCP
-    targetPort: 8081
-selector:
-  app: python-app
+  ports:
+    - name: http-8081
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: rmbg
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: rmbg
+spec:
+  to:
+    kind: Service
+    name: rmbg
+    weight: 100
+  port:
+    targetPort: http-8081
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

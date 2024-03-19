@@ -14,7 +14,7 @@ metadata:
     - Python
     - Pip
     - Flask
-  supportUrl: https://github.com/devfile-samples/devfile-support#support-information
+  supportUrl: https://github.com/cfchase/rmbg-service/issues
   attributes:
     alpha.dockerimage-port: 8081
 parent:
