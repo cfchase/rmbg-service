@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from torchvision.transforms.functional import normalize
 import numpy as np
 
-def preprocess_image(im: np.ndarray, model_input_size: list) -> torch.Tensor:
+def preprocess_image(im: np.ndarray, model_input_size: tuple) -> torch.Tensor:
     if len(im.shape) < 3:
         im = im[:, :, np.newaxis]
     # orig_im_size=im.shape[0:2]
@@ -14,7 +14,7 @@ def preprocess_image(im: np.ndarray, model_input_size: list) -> torch.Tensor:
     return image
 
 
-def postprocess_image(result: torch.Tensor, im_size: list)-> np.ndarray:
+def postprocess_image(result: torch.Tensor, im_size: tuple) -> np.ndarray:
     result = torch.squeeze(F.interpolate(result, size=im_size, mode='bilinear') ,0)
     ma = torch.max(result)
     mi = torch.min(result)
@@ -22,4 +22,3 @@ def postprocess_image(result: torch.Tensor, im_size: list)-> np.ndarray:
     im_array = (result*255).permute(1,2,0).cpu().data.numpy().astype(np.uint8)
     im_array = np.squeeze(im_array)
     return im_array
-    
